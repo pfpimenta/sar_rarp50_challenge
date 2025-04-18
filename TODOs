@@ -1,0 +1,52 @@
+TODOs:
+
+* Reading of the challenge paper: OK
+	* What are the classes?
+		- 10 classes
+		- Tool shaft, Tool clasper, Tool wrist, Thread, Clamps, Suturing needle, Suction tool, Catheter, Needle Holder
+	* Which were the metrics used?
+		- mean Intersection over Union (mIoU) 
+			- total (over all videos, frames, and classes)
+			- by class
+			- by video
+			- by frame (nao precisa)
+		- mean Normalized Surface Dice (mNSD)
+			- weighted estimate of the prediction quality by not penalizing false positives close to the target mask
+		- segmentation score (SS): sqrt(mIoU * mNSD)
+	* Which methods were used?
+        - EfficientNetB4 encoder + UNet++ decoder
+        - ensemble of a Swin Transformer and a SegFormer
+        - LinkNet architecture with ResNet-34 encoder
+        - Ensemble of 3 methods:
+            - Swin transformer as an encoder and a UperNet as a decoder
+            - HRNetV2 as an encoder and an OCRNet as a decoder
+            - MiT-B3 encoder and a SegFormer decoder
+        - Feature Pyramid Network (FPN) based on the EfficientNetV2-S backbone
+        - Swin Transformer Large feature encoder with an UperNet decoder
+        - HRNet
+        - ...
+
+* Chose model
+    - Considering I have very little time, and that my hardware is not very powerful (my GPU is a GTX 1050 Ti, which has 4GB of VRAM), I need a lightweight model that balances speed, accuracy, and efficiency, so that I may have some results in time, and maybe the chance to iterate and do a second training. Heavier methods like HRNet and Swin transformers just won't work, because they need more than 4 Gb of GPU VRAM. And even if I could apply them, the training would take too long.
+    - I will start start with MobileNetV3 + UNet Lite for fast results.
+
+* train.py
+	- params: train_data_path, hyperparameter_yaml_path
+* predict.py
+	- params: model_path, test_data_path
+* evaluate.py
+	- params: predicoes, ground_truth
+	* mIoU score (total)
+	* mIoU by class
+	* mIoU by video
+	* mean Normalized Surface Dice
+* Create Overleaf report
+	* secoes:
+		* Introduction
+		* Task and Data Description
+			- video segments recorded during 50 RARPs
+			- 60 FPS at 1080i resolution
+		* Evaluation
+		* Methods used
+		* Results
+		* Discussion
